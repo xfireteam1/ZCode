@@ -100,5 +100,23 @@ class tsCategorias {
 		// SI LLEGÓ HASTA AQUI HUBO UN ERROR.
 		} else return 'Lo sentimos ocurri&oacute; un error';
 	}
+* @param string $folder Carpeta dentro de images (por defecto "categorias")
 
+    @return string[]
+    */
+    public function getExtraIcons(string $folder = 'categorias'): array {
+    // TS_IMAGES suele apuntar a TS_ASSETS . '/images/'
+    $ruta = TS_IMAGES . $folder;
+    $icons = [];
+    if (is_dir($ruta)) {
+    foreach (scandir($ruta) as $file) {
+    if (in_array($file, ['.', '..'])) continue;
+    // Solo extensiones de imagen comunes
+    if (preg_match('/.(svg|png|jpe?g|gif)$/i', $file)) {
+    $icons[] = $file;
+    }
+    }
+    }
+    return $icons;
+    }
 }
